@@ -7,6 +7,8 @@ import PyRSS2Gen
 import datetime
 import StringIO
 
+LINK = "https://meh.com/" # probably clicktrack this later.
+
 page = requests.get('https://meh.com/')
 tree = html.fromstring(page.text)
 
@@ -17,15 +19,15 @@ img_url = img.attrib.get('style').replace("background-image: url('", '').replace
 
 rss = PyRSS2Gen.RSS2(
   title = "meh.com scraped feed",
-  link = "https://meh.com/",
+  link = LINK,
   description = "daily deal from meh.com",
   lastBuildDate = datetime.datetime.now(),
   items = [
     PyRSS2Gen.RSSItem(
       title = feat,
-      link = "https://meh.com/",
+      link = LINK,
       #description = """ <![CDATA[ %s<br />price: %s<br /><img src="%s" /> ]]> """ % (feat, price, img_url)
-      description = """item: <b>%s</b>  <br />price: <b>%s</b><br /><img src="%s" />""" % (feat, price, img_url)
+      description = """item: <b><a href="%s">%s</a></b>  <br />price: <b>%s</b><br /><img src="%s" />""" % (LINK, feat, price, img_url)
     )
   ]
 )
