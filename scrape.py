@@ -38,6 +38,6 @@ rss.write_xml(rssfile)
 s3bucket = boto.connect_s3().get_bucket('tedder')
 s3key =  s3bucket.new_key('rss/meh.xml')
 s3key.set_metadata('Content-Type', 'application/rss+xml')
-s3key.set_contents_from_string(rssfile.getvalue(), replace=True, reduced_redundancy=True, headers={'Cache-Control':'public, max-age=3600'}, policy="public-read")
+s3key.set_contents_from_string(rssfile.getvalue(), replace=True, reduced_redundancy=True, headers={'Cache-Control':'public, max-age=300'}, policy="public-read")
 
 
