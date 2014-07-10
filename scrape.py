@@ -16,6 +16,7 @@ feat = tree.xpath('//section[@class="features"]/h2/text()')[0]
 price = tree.xpath('//button[@class="buy-button"]/span/text()')[0]
 img = tree.xpath('//div[@class="photos"]/div')[0]
 img_url = img.attrib.get('style').replace("background-image: url('", '').replace("')", '')
+item = tree.xpath('//div[@class="front"]/form/@action')[0][1:][:-5]
 
 rss = PyRSS2Gen.RSS2(
   title = "meh.com scraped feed",
@@ -27,9 +28,9 @@ rss = PyRSS2Gen.RSS2(
   items = [
     PyRSS2Gen.RSSItem(
       title = feat,
-      link = LINK,
+      link = LINK + item,
       #description = """ <![CDATA[ %s<br />price: %s<br /><img src="%s" /> ]]> """ % (feat, price, img_url)
-      description = """item: <b><a href="%s">%s</a></b>  <br />price: <b>%s</b><br /><img src="%s" />""" % (LINK, feat, price, img_url)
+      description = """item: <b><a href="%s">%s</a></b>  <br />price: <b>%s</b><br /><img src="%s" />""" % (LINK + item, feat, price, img_url)
     )
   ]
 )
