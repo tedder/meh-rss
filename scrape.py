@@ -13,7 +13,7 @@ page = requests.get('https://meh.com/')
 tree = html.fromstring(page.text)
 
 feat = tree.xpath('//section[@class="features"]/h2/text()')[0]
-price = tree.xpath('//button[@class="buy-button"]/span/text()')[0]
+price = tree.xpath("//button[contains(@class,'buy-button')]/span/text()")[0]
 img = tree.xpath('//div[@class="photos"]/div')[0]
 img_url = img.attrib.get('style').replace("background-image: url('", '').replace("')", '')
 item = tree.xpath('//div[@class="front"]/form/@action')[0][1:][:-5]
