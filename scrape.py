@@ -3,6 +3,7 @@
 import boto
 import requests
 from lxml import html
+import lxml
 import PyRSS2Gen
 import datetime
 import StringIO
@@ -10,10 +11,13 @@ import StringIO
 LINK = "https://meh.com/" # probably clicktrack this later.
 
 page = requests.get('https://meh.com/')
-tree = html.fromstring(page.text)
+try:
+  tree = html.fromstring(page.text)
+except lxml.etree.XMLSyntaxError:
+  print "page failed. %s" % page.status_code
 
 feat = tree.xpath('//section[@class="features"]/h2/text()')[0]
-price = tree.xpath("//button[contains(@class,'buy-button')]/span/text()")[0]
+price = tree.xpath("//button[contains(@class,'buy-button')]/text()")[0].strip()
 img = tree.xpath('//div[@class="photos"]/div')[0]
 img_url = img.attrib.get('style').replace("background-image: url('", '').replace("')", '')
 item = tree.xpath('//div[@class="front"]/form/@action')[0][1:][:-5]
