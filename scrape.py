@@ -7,6 +7,7 @@ import lxml
 import PyRSS2Gen
 import datetime
 import StringIO
+import sys
 
 LINK = "https://meh.com/" # probably clicktrack this later.
 
@@ -14,6 +15,8 @@ page = requests.get('https://meh.com/')
 try:
   tree = html.fromstring(page.text)
 except lxml.etree.XMLSyntaxError:
+  if page.status_code == 500:
+    sys.exit(0)
   print "page failed. %s" % page.status_code
 
 feat = tree.xpath('//section[@class="features"]/h2/text()')[0]
